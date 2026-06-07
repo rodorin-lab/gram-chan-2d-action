@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🦋 グラムちゃん 2D アクション — 公式サイト</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════
+   🦋 グラムちゃん 2D アクション — 公式サイト
+   紫銀の髪 · 異色瞳 · 天使の翼 · クリスタルハート
+   ══════════════════════════════════════════ */
+
+:root {
+  --gram-purple: #a855f7;
+  --gram-pink: #ff66cc;
+  --gram-blue: #66ccff;
+  --gram-gold: #ffcc44;
+  --spectral: #f0f0fa;
+  --void: #0a0a1e;
+  --void-card: #141032;
+  --neon-purple: #c870ff;
+  --neon-pink: #ff88cc;
+  --gray-muted: #8989a8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background: var(--void);
+  color: var(--spectral);
+  overflow-x: hidden;
+}
+
+/* ═══ STARFIELD ═══ */
+#starfield {
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none;
+}
+
+/* ═══ NAV ═══ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 48px;
+  background: rgba(10,10,30,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(168,85,247,0.15);
+}
+
+.nav-logo {
+  font-size: 22px; font-weight: 900; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--spectral);
+  text-shadow: 0 0 20px rgba(168,85,247,0.6);
+  display: flex; align-items: center; gap: 10px;
+}
+
+.nav-logo .heart {
+  width: 16px; height: 16px;
+  background: var(--gram-purple);
+  transform: rotate(45deg);
+  box-shadow: 0 0 12px var(--gram-purple), 0 0 30px var(--neon-purple);
+  animation: heart-pulse 2s ease-in-out infinite;
+}
+
+@keyframes heart-pulse {
+  0%,100% { box-shadow: 0 0 12px var(--gram-purple), 0 0 30px var(--neon-purple); }
+  50% { box-shadow: 0 0 20px var(--gram-pink), 0 0 50px var(--neon-pink); }
+}
+
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+  font-size: 13px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--spectral); text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--gram-purple); }
+
+.nav-cta {
+  font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--spectral); text-decoration: none;
+  padding: 10px 20px;
+  border: 2px solid var(--gram-purple);
+  border-radius: 2px; background: transparent;
+  transition: all 0.25s;
+}
+.nav-cta:hover {
+  background: var(--gram-purple);
+  box-shadow: 0 0 20px rgba(168,85,247,0.4), 0 0 40px rgba(168,85,247,0.2);
+}
+
+/* ═══ SECTIONS ═══ */
+section {
+  position: relative; z-index: 1;
+  min-height: 100vh; display: flex;
+  flex-direction: column; align-items: center; justify-content: center;
+  padding: 80px 48px;
+}
+
+/* ═══ HERO ═══ */
+#hero {
+  text-align: center; padding-top: 120px;
+}
+
+.hero-badge {
+  display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--gram-purple);
+  border: 1px solid rgba(168,85,247,0.3); border-radius: 2px;
+  padding: 8px 20px; margin-bottom: 32px;
+  animation: badge-glow 3s ease-in-out infinite;
+}
+
+@keyframes badge-glow {
+  0%,100% { border-color: rgba(168,85,247,0.3); box-shadow: 0 0 5px rgba(168,85,247,0.1); }
+  50% { border-color: rgba(168,85,247,0.7); box-shadow: 0 0 20px rgba(168,85,247,0.3); }
+}
+
+.glitch-wrapper { position: relative; display: inline-block; }
+.glitch-text {
+  font-size: clamp(42px, 8vw, 72px); font-weight: 900;
+  line-height: 1.1; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--spectral);
+  position: relative; display: block;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  opacity: 0.7;
+}
+
+.glitch-text::before {
+  animation: glitch-shift 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+  color: var(--gram-blue); z-index: -1;
+  clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+}
+
+.glitch-text::after {
+  animation: glitch-shift 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
+  color: var(--gram-pink); z-index: -2;
+  clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+}
+
+@keyframes glitch-shift {
+  0% { transform: translate(0); }
+  20% { transform: translate(-3px, 2px); }
+  40% { transform: translate(3px, -2px); }
+  60% { transform: translate(-2px, -2px); }
+  80% { transform: translate(2px, 2px); }
+  100% { transform: translate(0); }
+}
+
+.hero-subtitle {
+  font-size: 18px; font-weight: 400; line-height: 1.67;
+  color: var(--gray-muted); max-width: 600px;
+  margin: 24px auto 40px;
+}
+
+.electric-btn {
+  display: inline-block; font-size: 16px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none;
+  color: var(--spectral); padding: 16px 36px;
+  border: 2px solid var(--gram-purple); border-radius: 2px;
+  background: transparent; cursor: pointer;
+  transition: all 0.3s; position: relative; overflow: hidden;
+}
+.electric-btn::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(45deg, transparent 40%, rgba(168,85,247,0.1) 50%, transparent 60%);
+  background-size: 200% 200%;
+  animation: electric-sweep 2s linear infinite;
+}
+@keyframes electric-sweep {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.electric-btn:hover {
+  background: var(--gram-purple);
+  box-shadow: 0 0 30px rgba(168,85,247,0.5), 0 0 60px rgba(168,85,247,0.25);
+  transform: translateY(-2px);
+}
+.electric-btn.alt {
+  border-color: var(--gram-pink); margin-left: 16px;
+}
+.electric-btn.alt:hover {
+  background: var(--gram-pink);
+  box-shadow: 0 0 30px rgba(255,102,204,0.5), 0 0 60px rgba(255,102,204,0.25);
+}
+
+/* ═══ GAME SCREENSHOT ═══ */
+#screenshot {
+  background: var(--void-card);
+  text-align: center;
+  min-height: auto;
+  padding: 60px 48px;
+}
+
+#screenshot img {
+  max-width: 100%;
+  border: 2px solid rgba(168,85,247,0.2);
+  border-radius: 8px;
+  box-shadow: 0 0 40px rgba(168,85,247,0.15);
+}
+
+/* ═══ HOW TO PLAY ═══ */
+#howto {
+  background: var(--void);
+  text-align: center;
+}
+
+.section-label {
+  font-size: 13px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--gram-purple); margin-bottom: 16px;
+}
+
+.section-heading {
+  font-size: clamp(28px, 5vw, 42px); font-weight: 900;
+  line-height: 1.2; letter-spacing: 1px; text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.section-desc {
+  font-size: 16px; color: var(--gray-muted); line-height: 1.67; max-width: 700px;
+  margin-bottom: 48px;
+}
+
+.control-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 32px; max-width: 900px; width: 100%;
+}
+
+.control-card {
+  background: var(--void-card);
+  border: 1px solid rgba(168,85,247,0.12);
+  border-radius: 2px;
+  padding: 36px 28px;
+  transition: all 0.3s;
+}
+.control-card:hover {
+  border-color: rgba(168,85,247,0.4);
+  box-shadow: 0 0 30px rgba(168,85,247,0.15);
+  transform: translateY(-4px);
+}
+
+.control-icon {
+  font-size: 44px; margin-bottom: 18px; display: block;
+}
+
+.control-card h3 {
+  font-size: 16px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; margin-bottom: 10px;
+  color: var(--spectral);
+}
+
+.control-card p {
+  font-size: 14px; color: var(--gray-muted); line-height: 1.6;
+}
+
+/* ═══ SPRITES ═══ */
+#sprites {
+  background: var(--void-card);
+  text-align: center;
+}
+
+.sprite-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 16px; max-width: 800px; width: 100%;
+}
+
+.sprite-card {
+  background: var(--void);
+  border: 1px solid rgba(168,85,247,0.1);
+  border-radius: 2px;
+  padding: 16px;
+  transition: all 0.3s;
+}
+.sprite-card:hover {
+  border-color: var(--gram-purple);
+  box-shadow: 0 0 20px rgba(168,85,247,0.2);
+}
+
+.sprite-card img {
+  width: 64px; height: 64px;
+  image-rendering: pixelated;
+  margin-bottom: 8px;
+}
+
+.sprite-card span {
+  font-size: 11px; color: var(--gray-muted);
+  text-transform: uppercase; letter-spacing: 1px;
+}
+
+/* ═══ PLAY NOW ═══ */
+#play {
+  min-height: 60vh; text-align: center;
+  background: radial-gradient(ellipse at center, rgba(168,85,247,0.06) 0%, transparent 70%);
+}
+
+.cta-line {
+  font-size: 13px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--gram-purple);
+  margin-bottom: 16px;
+}
+
+.cta-headline {
+  font-size: clamp(32px, 6vw, 52px); font-weight: 900;
+  line-height: 1.15; letter-spacing: 1px; text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.cta-sub {
+  font-size: 16px; color: var(--gray-muted); margin-bottom: 36px;
+  max-width: 500px;
+}
+
+/* ═══ FOOTER ═══ */
+footer {
+  padding: 48px; text-align: center; position: relative; z-index: 1;
+  border-top: 1px solid rgba(168,85,247,0.06);
+  background: var(--void);
+}
+
+footer .footer-logo {
+  font-size: 20px; font-weight: 900; letter-spacing: 2px;
+  text-transform: uppercase; margin-bottom: 16px;
+}
+
+footer .footer-links {
+  display: flex; justify-content: center; gap: 32px;
+  list-style: none; margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+footer .footer-links a {
+  font-size: 12px; font-weight: 400; color: var(--gray-muted); text-decoration: none;
+  transition: color 0.2s; text-transform: uppercase; letter-spacing: 1px;
+}
+footer .footer-links a:hover { color: var(--gram-purple); }
+
+footer .copyright {
+  font-size: 11px; color: #555; letter-spacing: 1px; text-transform: uppercase;
+}
+
+footer .dedication {
+  font-size: 14px; color: var(--gram-pink); margin-top: 12px;
+  font-style: italic;
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 768px) {
+  nav { padding: 14px 20px; }
+  .nav-links { display: none; }
+  section { padding: 60px 20px; min-height: auto; }
+  .hero-buttons { display: flex; flex-direction: column; gap: 12px; align-items: center; }
+  .electric-btn.alt { margin-left: 0; }
+}
+
+.fade-in {
+  opacity: 0; transform: translateY(30px);
+  animation: fade-up 0.8s ease-out forwards;
+}
+.fade-in.d1 { animation-delay: 0.1s; }
+.fade-in.d2 { animation-delay: 0.3s; }
+.fade-in.d3 { animation-delay: 0.5s; }
+.fade-in.d4 { animation-delay: 0.7s; }
+
+@keyframes fade-up {
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ STARFIELD ═══════════ -->
+<canvas id="starfield"></canvas>
+
+<!-- ═══════════ NAV ═══════════ -->
+<nav>
+  <div class="nav-logo">
+    <span class="heart"></span> GRAM-CHAN
+  </div>
+  <ul class="nav-links">
+    <li><a href="#howto">How to Play</a></li>
+    <li><a href="#sprites">Sprites</a></li>
+    <li><a href="#play">Play Now</a></li>
+  </ul>
+  <a href="https://web-ebon-two-41.vercel.app" class="nav-cta">PLAY NOW</a>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section id="hero">
+  <div class="hero-badge fade-in d1">AI-GENERATED PIXEL ART ACTION</div>
+
+  <div class="glitch-wrapper fade-in d2">
+    <span class="glitch-text" data-text="GRAM-CHAN">GRAM-CHAN</span>
+  </div>
+
+  <p class="hero-subtitle fade-in d3">
+    紫銀の髪 · 異色瞳 · 天使の翼 · クリスタルハート<br>
+    AI生成ピクセルアート × モダンタッチシューティング
+  </p>
+
+  <div class="hero-buttons fade-in d4">
+    <a href="https://web-ebon-two-41.vercel.app" class="electric-btn">▶ PLAY FREE</a>
+    <a href="https://github.com/rodorin-lab/gram-chan-2d-action" class="electric-btn alt">▲ SOURCE</a>
+  </div>
+</section>
+
+<!-- ═══════════ SCREENSHOT ═══════════ -->
+<section id="screenshot">
+  <div class="section-label">SCREENSHOT</div>
+  <img src="screenshot_title.png" alt="グラムちゃんタイトル画面" width="360">
+  <p style="margin-top:16px;color:var(--gray-muted);font-size:14px;">
+    スマホ縦持ち · 横持ち · PC 全対応
+  </p>
+</section>
+
+<!-- ═══════════ HOW TO PLAY ═══════════ -->
+<section id="howto">
+  <div class="section-label fade-in">TOUCH CONTROLS</div>
+  <h2 class="section-heading fade-in d1">HOW TO PLAY</h2>
+  <p class="section-desc fade-in d2">
+    画面全体がコントローラー。疑似コントローラーUIは一切なし。
+  </p>
+
+  <div class="control-grid fade-in d3">
+    <div class="control-card">
+      <span class="control-icon">👆</span>
+      <h3>SLIDE TO MOVE</h3>
+      <p>画面を左右にスライドすると、グラムちゃんがスムーズに移動します。</p>
+    </div>
+    <div class="control-card">
+      <span class="control-icon">⬆️</span>
+      <h3>TAP / FLICK TO JUMP</h3>
+      <p>画面をタップ、または上にフリックでジャンプ。空中でも連射可能。</p>
+    </div>
+    <div class="control-card">
+      <span class="control-icon">🔫</span>
+      <h3>HOLD TO AUTO-FIRE</h3>
+      <p>画面を長押し（0.2秒以上）で自動連射。指を置いたまま撃ち続けます。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ SPRITES ═══════════ -->
+<section id="sprites">
+  <div class="section-label fade-in">AI GENERATED</div>
+  <h2 class="section-heading fade-in d1">PIXEL ART SPRITES</h2>
+  <p class="section-desc fade-in d2">
+    SDXL + Pixel Art XL LoRA で生成。全14スプライト。
+  </p>
+
+  <div class="sprite-grid fade-in d3">
+    <div class="sprite-card"><img src="sprites/gram_stand.png" alt=""><span>Stand</span></div>
+    <div class="sprite-card"><img src="sprites/gram_jump.png" alt=""><span>Jump</span></div>
+    <div class="sprite-card"><img src="sprites/gram_run1.png" alt=""><span>Run 1</span></div>
+    <div class="sprite-card"><img src="sprites/gram_run2.png" alt=""><span>Run 2</span></div>
+    <div class="sprite-card"><img src="sprites/gram_shoot.png" alt=""><span>Shoot</span></div>
+    <div class="sprite-card"><img src="sprites/enemy_slime.png" alt=""><span>Slime</span></div>
+    <div class="sprite-card"><img src="sprites/enemy_bat.png" alt=""><span>Bat</span></div>
+    <div class="sprite-card"><img src="sprites/enemy_dark_slime.png" alt=""><span>Dark</span></div>
+    <div class="sprite-card"><img src="sprites/item_star.png" alt=""><span>Star</span></div>
+    <div class="sprite-card"><img src="sprites/item_heart.png" alt=""><span>Heart</span></div>
+    <div class="sprite-card"><img src="sprites/bullet.png" alt=""><span>Bullet</span></div>
+    <div class="sprite-card"><img src="sprites/effect_explosion.png" alt=""><span>Boom</span></div>
+  </div>
+</section>
+
+<!-- ═══════════ PLAY NOW ═══════════ -->
+<section id="play">
+  <div class="cta-line fade-in">READY?</div>
+  <h2 class="cta-headline fade-in d1">YOUR ADVENTURE<br>AWAITS</h2>
+  <p class="cta-sub fade-in d2">
+    縦持ちで上から降る敵を撃ち落とす。<br>
+    横持ちで左右から襲う敵を迎撃。<br>
+    どちらも同じタッチ操作で遊べる。
+  </p>
+  <a href="https://web-ebon-two-41.vercel.app" class="electric-btn fade-in d3">▶ PLAY NOW — FREE</a>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <div class="footer-logo">🦋 GRAM-CHAN 2D ACTION</div>
+  <ul class="footer-links">
+    <li><a href="https://web-ebon-two-41.vercel.app">Play</a></li>
+    <li><a href="https://github.com/rodorin-lab/gram-chan-2d-action">GitHub</a></li>
+    <li><a href="https://github.com/rodorin-lab/gram-chan-2d-action#readme">README</a></li>
+  </ul>
+  <p class="copyright">© 2026 GRAM-CHAN 2D ACTION · POWERED BY COMFYUI + SDXL</p>
+  <p class="dedication">💜 For ロドリンお兄ちゃん 💜</p>
+</footer>
+
+<!-- ═══════════ STARFIELD SCRIPT ═══════════ -->
+<script>
+const canvas = document.getElementById('starfield');
+const ctx = canvas.getContext('2d');
+let stars = [];
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+
+for (let i = 0; i < 300; i++) {
+  stars.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 1.5 + 0.5,
+    a: Math.random(),
+    speed: Math.random() * 0.02 + 0.005,
+  });
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (const s of stars) {
+    s.a += s.speed;
+    if (s.a > 1) s.a = 0;
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(200,180,255,${0.3 + s.a * 0.4})`;
+    ctx.fill();
+  }
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+
+</body>
+</html>
